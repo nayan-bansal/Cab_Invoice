@@ -4,28 +4,26 @@ import java.util.logging.Logger;
 
 public class Invoice_Main {
 
-	
 	private static final double MINIMUM_COST_PER_KM = 10.0;
 	private static final int COST_PER_TIME = 1;
 	private static final double MINIMUM_FARE = 5.0;
 	
-	
-	public static void main (String[] args) {
-		Logger Log = Logger.getLogger(Invoice_Main.class.getName());
-		Log.info("Welcome to Can Invoice Generation System");	
+	public static void main(String[] args) {
+		Logger log = Logger.getLogger(Invoice_Main.class.getName());
+		log.info("Welcome to the Cab Invoice Generator System.");
 	}
-	
-	public static double calculateFare(double distance, int time) {
+
+	public double calculateFare(double distance, int time) {
 		double totalFare = distance * MINIMUM_COST_PER_KM + time * COST_PER_TIME;
 		return Math.max(totalFare, MINIMUM_FARE);
 	}
 	
-	public static double calculateFare(Ride[] rides) {
+	public InvoiceSummary calculateFare(Ride[] rides) {
 		double totalFare = 0.0;
 		for (Ride ride : rides) {
-			totalFare += calculateFare(ride.distance, ride.time);
+			totalFare += this.calculateFare(ride.distance, ride.time);
 		}
-		return totalFare;
+		return new InvoiceSummary(rides.length, totalFare);
 	}
 	
 }
